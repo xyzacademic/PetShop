@@ -194,7 +194,7 @@ class Shop(object):
         plt.show()
         plt.close()
 
-    def buy(self, index):
+    def buy(self, index, temp_key):
         if not isinstance(index, str):
             index = str(index)
         self.check_exist()
@@ -203,10 +203,13 @@ class Shop(object):
             return None
         else:
             # Load private key
-            with open(os.path.join(self.currentUser['warehouse'], 'privateKey'), 'r') as f:
-                temp_key = f.readline()
+            # with open(os.path.join(self.currentUser['warehouse'], 'privateKey'), 'r') as f:
+            #     temp_key = f.readline()
             if self.purchase(target=self.shelf_list[index], private_key=temp_key):
                 shutil.move(self.shelf_list[index]['address'], self.currentUser['warehouse'])
+                return True
+            else:
+                return False
 
     def purchase(self, target, private_key):
         sender_address = self.currentUser['publicKey']

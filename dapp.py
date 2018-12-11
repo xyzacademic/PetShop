@@ -8,9 +8,11 @@ Created on Fri Dec  7 22:22:51 2018
 import tkinter as tk
 import pickle
 from shop import Shop
-import os
 
-#p = Shop()
+# users = {'hannibal':'123'}
+#
+# with open('users_pwd.pkl', 'wb') as f:
+#     pwd = pickle.dump(users, f)
 
 class DAPP:
     def __init__(self, root):
@@ -139,17 +141,16 @@ class DAPP:
             self.e_pra_key.grid(row=3, column=1, padx=10, pady=5)
             tk.Button(trans, text="Submit", width=10, command=self.bought)\
                          .grid(row=4, columnspan=3, sticky=tk.W, padx=100, pady=5)
-        
+
+
     def bought(self):
-        with open(os.path.join(self.p.currentUser['warehouse'], 'privateKey'), 'r') as f:
-                cur_praviteKey = f.readline()
-        if self.e_pra_key.get() == cur_praviteKey and self.e_pub_key.get() == self.p.currentUser['publicKey']:
-            self.p.buy(self.e_buy.get())
+        verify = self.p.buy(self.e_buy.get(), self.e_pra_key.get())
+        if verify:
             success = tk.Toplevel()
             tk.Label(success, text='Transaction is successful!').grid(row=0, column=0)
         else:
             error = tk.Toplevel()
-            tk.Label(error, text='Public key and Pravite key cannot match!').grid(row=0, column=0)
+            tk.Label(error, text='Sorry! Transaction Failed!').grid(row=0, column=0)
             
             
 def main():

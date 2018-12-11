@@ -43,9 +43,9 @@ class Blockchain(object):
         rest = 0
         for i in range(len(self.chain)):
             if sender_address == self.chain[i]['transactions'][0]['sender_address']:
-                rest -= self.chain[i]['transactions'][0]['value']
+                rest -= float(self.chain[i]['transactions'][0]['value'])
             if sender_address == self.chain[i]['transactions'][0]['recipient_address']:
-                rest += self.chain[i]['transactions'][0]['value']
+                rest += float(self.chain[i]['transactions'][0]['value'])
         return rest >= float(value)
 
     def submit_transaction(self, sender_address, recipient_address, value, signature):
